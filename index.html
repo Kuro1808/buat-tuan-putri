@@ -8,54 +8,60 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --pink: #e2a8ab; --lilac: #d1b3c4; }
+        
         body {
             margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, var(--pink), var(--lilac));
-            min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            text-align: center; color: white; overflow: hidden;
-            position: fixed;
+            background: #e2a8ab;
+            background: linear-gradient(135deg, #e2a8ab, #d1b3c4) fixed;
+            height: 100vh; width: 100%;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; color: white;
+            overflow: hidden;
         }
+
         .container {
-            width: 90%; max-width: 320px; background: rgba(255, 255, 255, 0.2);
+            width: 85%; max-width: 320px;
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(15px); padding: 25px; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: opacity 1s ease-in-out; /* Buat efek fading antar layar */
+            border: 1px solid rgba(255,255,255,0.3); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: opacity 1s ease-in-out;
         }
-        
-        /* --- ANIMASI FADING --- */
+
+        /* Animasi Transisi */
         .fade-out { opacity: 0; pointer-events: none; }
         .fade-in { animation: fadeIn 1s forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin-bottom: 10px; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2rem; margin-bottom: 5px; }
         
         .track-container {
             width: 100%; height: 60px; position: relative; 
-            margin: 20px 0; border-bottom: 2px dashed rgba(255,255,255,0.5);
+            margin: 30px 0; border-bottom: 2px dashed rgba(255,255,255,0.5);
         }
-        #gojo-cat {
-            position: absolute; bottom: -10px; left: 0; width: 80px;
-            transition: left 0.5s linear;
-        }
-        #gift-box { position: absolute; bottom: 0; right: 0; width: 60px; transition: transform 0.3s; }
 
-        .timer { font-size: 1.5rem; font-weight: bold; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 10px; }
-        
+        #gojo-cat { position: absolute; bottom: 0; left: 0; width: 80px; transition: left 0.5s linear; }
+        #gift-box { position: absolute; bottom: 0; right: 0; width: 50px; }
+
+        .timer { 
+            font-size: 1.2rem; font-weight: bold; 
+            background: rgba(0,0,0,0.1); padding: 10px; border-radius: 10px; 
+        }
+
         #question-section, #after-bday { display: none; flex-direction: column; align-items: center; }
         .btn-group { display: flex; gap: 20px; align-items: center; justify-content: center; min-height: 120px; width: 100%; }
         
-        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: all 0.3s ease; }
-        #yes-btn { background: white; color: var(--pink); box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; }
+        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
+        #yes-btn { background: white; color: #e2a8ab; }
         #no-btn { background: transparent; color: white; border: 2px solid white; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        /* --- BAGIAN YANG TADI HILANG --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; width: 100%; }
         .card {
-            background: white; padding: 20px; border-radius: 15px; color: var(--pink);
+            background: white; padding: 15px; border-radius: 15px; color: #e2a8ab;
             aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; border: 2px solid var(--pink); cursor: pointer;
-            transition: 0.3s;
+            font-size: 0.7rem; border: 2px solid #e2a8ab; cursor: pointer; transition: 0.3s;
         }
-        .card:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
