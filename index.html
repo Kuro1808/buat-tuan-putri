@@ -8,76 +8,57 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --pink: #e2a8ab; --lilac: #d1b3c4; }
-        
         body {
             margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
-            background: #e2a8ab;
             background: linear-gradient(135deg, #e2a8ab, #d1b3c4) fixed;
             height: 100vh; width: 100%;
             display: flex; justify-content: center; align-items: center;
-            text-align: center; color: white;
-            overflow: hidden;
+            text-align: center; color: white; overflow: hidden;
         }
-
         .container {
             width: 85%; max-width: 320px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(15px); padding: 25px; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.3); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: opacity 1s ease-in-out;
+            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        /* Animasi Transisi */
-        .fade-out { opacity: 0; pointer-events: none; }
+        .fade-out { opacity: 0; transition: opacity 1s; pointer-events: none; }
         .fade-in { animation: fadeIn 1s forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         h1 { font-family: 'Dancing Script', cursive; font-size: 2rem; margin-bottom: 5px; }
-        
         .track-container {
             width: 100%; height: 60px; position: relative; 
             margin: 30px 0; border-bottom: 2px dashed rgba(255,255,255,0.5);
         }
-
         #gojo-cat { position: absolute; bottom: -15px; left: 0; width: 80px; transition: left 0.5s linear; }
-        #gift-box { position: absolute; bottom: 0; right: 0; width: 50px; }
-
-        .timer { 
-            font-size: 1.2rem; font-weight: bold; 
-            background: rgba(0,0,0,0.1); padding: 10px; border-radius: 10px; 
-        }
-
+        #gift-box { position: absolute; bottom: -5px; right: 0; width: 50px; animation: wiggle 1s infinite; }
+        @keyframes wiggle { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        .timer { font-size: 1.2rem; font-weight: bold; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 10px; }
         #question-section, #after-bday { display: none; flex-direction: column; align-items: center; }
         .btn-group { display: flex; gap: 20px; align-items: center; justify-content: center; min-height: 120px; width: 100%; }
-        
         button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
         #yes-btn { background: white; color: #e2a8ab; }
         #no-btn { background: transparent; color: white; border: 2px solid white; }
-
-        /* --- BAGIAN YANG TADI HILANG --- */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; width: 100%; }
         .card {
             background: white; padding: 15px; border-radius: 15px; color: #e2a8ab;
             aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; border: 2px solid #e2a8ab; cursor: pointer; transition: 0.3s;
+            font-size: 0.7rem; border: 2px solid #e2a8ab; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <audio id="pop-sound" src="https://www.myinstants.com/media/sounds/party-horn.mp3"></audio>
+    <audio id="bg-music" loop><source src="About-You.mp3" type="audio/mpeg"></audio>
 
     <div class="container" id="main-container">
         <div id="before-bday">
             <h1 id="status-title">Sabar ya cantik...</h1>
-            <p id="tengil-text" style="transition: opacity 0.5s; height: 40px;">Lagi nyiapin sesuatu nih!</p>
-            
+            <p id="tengil-text" style="height: 40px;">Lagi nyiapin sesuatu nih!</p>
             <div class="track-container">
                 <img id="gojo-cat" src="gojo-lari-1.png" alt="Gojo Cat">
-                <img id="gift-box" src="https://cdn-icons-png.flaticon.com/512/2143/2143150.png" alt="Gift">
+                <img id="gift-box" src="kado-tutup.png" alt="Gift">
             </div>
-
             <div class="timer" id="countdown">00:00:00:00</div>
         </div>
 
@@ -93,49 +74,61 @@
             <h1>Happy Birthday, Sayang! 🎂</h1>
             <p id="milestone-text"></p>
             <div class="grid">
-                <div class="card" onclick="alert('Pesan 1: Masih alert dulu ya...')">Card 1</div>
-                <div class="card" onclick="alert('Pesan 2: Ingat ganti jadi flip!')">Card 2</div>
-                <div class="card" onclick="alert('Pesan 3: Semangat kodingnya!')">Card 3</div>
-                <div class="card" onclick="alert('Pesan 4: Love you!')">Card 4</div>
+                <div class="card" onclick="alert('Pesan 1')">Card 1</div>
+                <div class="card" onclick="alert('Pesan 2')">Card 2</div>
+                <div class="card" onclick="alert('Pesan 3')">Card 3</div>
+                <div class="card" onclick="alert('Pesan 4')">Card 4</div>
             </div>
             <button id="yes-btn" style="margin-top:20px" onclick="alert('Virtual Hug! ❤️')">Kirim Peluk!</button>
         </div>
     </div>
 
     <script>
-        const birthdayDate = new Date("2026-08-18T00:00:00").getTime(); 
-        const startDate = new Date("2024-01-01").getTime(); 
-        const totalDuration = birthdayDate - new Date("2026-04-06").getTime(); // Sesuaikan tgl awal track lari
+        // --- KONFIGURASI WAKTU ---
+        // Ganti birthdayDate ke waktu yang kamu mau ngetes (misal 5 menit lagi)
+        const birthdayDate = new Date("2026-04-07T11:35:00").getTime(); 
+        const startDate = new Date("2023-04-16  ").getTime(); // Tanggal Jadian
+        const lariStart = new Date("2026-04-01T00:00:00").getTime(); // Mulai Gojo Lari
 
-        const tengilMessages = ["Larii Gojoo, wkwkwk","Semangatt buat bikin Malika seneng!!","Sabar yaa, cutie","Kasian Gojo tapi aku puas hehe","Pliss tungguin dia sampe finish yaa"];
+        const tengilMessages = ["Larii Gojoo, wkwkwk","Semangatt buat bikin Malika seneng!!","Sabar yaa, cutie","Kasian Gojo tapi aku puas hehe"];
         const gojoFrame = ["gojo-lari-1.png", "gojo-lari-2.png", "gojo-lari-3.png", "gojo-lari-4.png", "gojo-lari-5.png", "gojo-lari-6.png"];
+        
         let currentFrame = 0;
-
-        function animatedGojo() {
-            const gojoElement = document.getElementById("gojo-cat");
-            if (gojoElement && !celebrationStarted) {
-                currentFrame = (currentFrame + 1) % gojoFrame.length;
-                gojoElement.src = gojoFrame[currentFrame];
-            }
-        }
-        setInterval(animatedGojo, 120);
         let noCount = 0;
         let celebrationStarted = false;
+
+        // Animasi Kaki Gojo
+        setInterval(() => {
+            const gojo = document.getElementById("gojo-cat");
+            if (gojo && !celebrationStarted) {
+                currentFrame = (currentFrame + 1) % gojoFrame.length;
+                gojo.src = gojoFrame[currentFrame];
+            }
+        }, 120);
 
         function updateDisplay() {
             const now = new Date().getTime();
             const diff = birthdayDate - now;
 
             if (diff > 0) {
+                // LOGIC LARI
+                const totalLari = birthdayDate - lariStart;
+                const sudahLewat = now - lariStart;
+                let progress = (sudahLewat / totalLari) * 67; 
+
+                if (progress < 0) progress = 0;
+                if (progress > 67) progress = 67;
+
+                document.getElementById("gojo-cat").style.left = progress + "%";
+
+                // TIMER
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secs = Math.floor((diff % (1000 * 60)) / 1000);
                 document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
 
-                const progress = Math.max(0, Math.min(100, 100 - (diff / totalDuration * 100)));
-                document.getElementById("gojo-cat").style.left = `calc(${progress}% - 70px)`;
-
+                // TEXT TENGIL (Tiap 4 detik)
                 if (secs % 4 === 0) {
                     const tText = document.getElementById("tengil-text");
                     tText.style.opacity = 0;
@@ -144,9 +137,11 @@
                         tText.style.opacity = 1;
                     }, 500);
                 }
-            } else if (!celebrationStarted) {
-                celebrationStarted = true;
-                startCelebration();
+            } else {
+                if (!celebrationStarted) {
+                    celebrationStarted = true;
+                    startCelebration();
+                }
             }
         }
 
@@ -156,25 +151,21 @@
             const gift = document.getElementById("gift-box");
             const popSound = document.getElementById("pop-sound");
 
-            gojo.style.left = "calc(100% - 130px)";
+            popSound.play().catch(e => console.log("Audio blocked"));
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
+            gift.src = "kado-buka.png";
+            gojo.src = "https://media.tenor.com/T_7U2_Zk3EAAAAAi/gojo-cat.gif";
+
             setTimeout(() => {
-                popSound.play().catch(e => console.log("Audio block by browser"));
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#e2a8ab', '#d1b3c4'] });
-                gift.src = "https://cdn-icons-png.flaticon.com/512/4213/4213958.png";
-                gojo.src = "https://media.tenor.com/T_7U2_Zk3EAAAAAi/gojo-cat.gif";
-                
-                // Transisi Fading
+                container.classList.add("fade-out");
                 setTimeout(() => {
-                    container.classList.add("fade-out");
-                    setTimeout(() => {
-                        document.getElementById("before-bday").style.display = "none";
-                        document.getElementById("question-section").style.display = "flex";
-                        container.classList.remove("fade-out");
-                        container.classList.add("fade-in");
-                    }, 1000);
-                }, 2500); // Confetti meledak 2.5 detik sebelum ganti layar
-            }, 1000);
+                    document.getElementById("before-bday").style.display = "none";
+                    document.getElementById("question-section").style.display = "flex";
+                    container.classList.remove("fade-out");
+                    container.classList.add("fade-in");
+                }, 1000);
+            }, 3000);
         }
 
         function handleNo() {
@@ -182,18 +173,33 @@
             const yesBtn = document.getElementById('yes-btn');
             const noBtn = document.getElementById('no-btn');
             const qText = document.getElementById('question-text');
-            const questions = ["Yakin?", "Gak kangen?", "Eits... gak bisa!", "Pencet YES aja!"];
 
+            //list pertanyaan
+            const questions = [
+                "Are you ready? ✨",
+                 "Hontou? Kasian Gojo udah lari.. 😿",
+                 "Yakin gak mau buka? Nanti nyesel lho! 🥹",
+                 "Dame.. Onegai... 🥹",
+                 "Dah, gak ada lagi. Pencet YES aja 🗿"
+            ];
+            // update pertanyaan biar ganti
+            if (noCount < questions.length) {
+                qText.innerHTML = questions[noCount];
+            }
+            // besarin tombol yes
             yesBtn.style.transform = `scale(${1 + noCount * 0.4})`;
-            noBtn.style.transform = `scale(${1 - noCount * 0.2})`;
-            if(noCount < questions.length) qText.innerHTML = questions[noCount];
-            if(noCount >= 4) noBtn.style.display = "none";
+            // kecilin tombol no
+            noBtn.style.transform = `scale(${1 - noCount * 0.15})`;
+            // ilangin tombol no
+            if (noCount >= 4) {
+                noBtn.style.display = "none";
+            }
         }
 
         function openSurprise() {
+            document.getElementById("bg-music").play();
             const container = document.getElementById("main-container");
             container.classList.add("fade-out");
-            
             setTimeout(() => {
                 document.getElementById("question-section").style.display = "none";
                 document.getElementById("after-bday").style.display = "block";
