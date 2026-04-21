@@ -554,6 +554,7 @@
             const errorMsg = document.getElementById("error-msg");
 
             if (userInput === correctPass) {
+                document.getElementById("bg-music").play();
                 container.classList.add("fade-out");
                 setTimeout(() => {
                     document.getElementById("passcode-section").style.display = "none";
@@ -570,7 +571,6 @@
 
         // ALUR 4: Ready? -> Final Cards
         function openSurprise() {
-            document.getElementById("bg-music").play();
             const container = document.getElementById("main-container");
             container.classList.add("fade-out");
 
