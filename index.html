@@ -1,60 +1,396 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surprise buat Tuan Putri 🎀</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&family=Fredoka:wght@500&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --pink: #e2a8ab; --lilac: #d1b3c4; }
+        :root {
+            --pink: #e2a8ab;
+            --lilac: #d1b3c4;
+            --white-glass: rgba(255, 255, 255, 0.2);
+        }
+
         body {
-            margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #e2a8ab, #d1b3c4) fixed;
-            height: 100vh; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            text-align: center; color: white; overflow: hidden;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--pink), var(--lilac)) fixed;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
         }
+
         .container {
-            width: 85%; max-width: 320px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px); padding: 25px; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 85%;
+            max-width: 350px;
+            min-height: 450px;
+            background: var(--white-glass);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
         }
-        .fade-out { opacity: 0; transition: opacity 1s; pointer-events: none; }
-        .fade-in { animation: fadeIn 1s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        h1 { font-family: 'Dancing Script', cursive; font-size: 2rem; margin-bottom: 5px; }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s;
+            pointer-events: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- Progress Gojo --- */
         .track-container {
-            width: 100%; height: 60px; position: relative; 
-            margin: 30px 0; border-bottom: 2px dashed rgba(255,255,255,0.5);
+            width: 100%;
+            height: 60px;
+            position: relative;
+            margin: 30px 0;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.5);
         }
-        #gojo-cat { position: absolute; bottom: -15px; left: 0; width: 80px; transition: left 0.5s linear; }
-        #gift-box { position: absolute; bottom: -5px; right: 0; width: 50px; animation: wiggle 1s infinite; }
-        @keyframes wiggle { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-        .timer { font-size: 1.2rem; font-weight: bold; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 10px; }
-        #question-section, #after-bday { display: none; flex-direction: column; align-items: center; }
-        .btn-group { display: flex; gap: 20px; align-items: center; justify-content: center; min-height: 120px; width: 100%; }
-        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
-        #yes-btn { background: white; color: #e2a8ab; }
-        #no-btn { background: transparent; color: white; border: 2px solid white; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; width: 100%; }
-        .card {
-            background: white; padding: 15px; border-radius: 15px; color: #e2a8ab;
-            aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; border: 2px solid #e2a8ab; cursor: pointer;
+
+        #gojo-cat {
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            transition: left 0.5s linear;
+        }
+
+        #gift-box {
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 50px;
+            animation: wiggle 1s infinite;
+        }
+
+        @keyframes wiggle {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .timer {
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            letter-spacing: 1px;
+        }
+
+        #wish-section,
+        #passcode-section,
+        #question-section,
+        #after-bday {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 0 10px;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            min-height: 150px;
+            width: 100%;
+            height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #yes-btn {
+            background: white;
+            color: var(--pink);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        #no-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            display: inline-block;
+            transition: transform 0.2 cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+            white-space: no-wrap;
+        }
+
+        /* --- Tampilan Grid Kado 🎁 --- */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            /* Jarak rada lebar dikit biar rapi */
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .card-gift {
+            background: rgba(255, 255, 255, 0.3);
+            /* Glassmorphism unyu */
+            backdrop-filter: blur(5px);
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            /* Ukuran emoji kado gede */
+            border-radius: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            /* Garis putus-putus kayak kado beneran */
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-gift:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- Tampilan Modal Polaroid & Flip (Pop Up) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            /* Latar belakang gelap transparan */
+            backdrop-filter: blur(0px);
+            display: none;
+            /* Sembunyi dulu */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            /* Paling depan */
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .modal-overlay.is-open {
+            display: flex;
+            opacity: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .polaroid-container {
+            width: 280px;
+            /* Ukuran modal polaroid */
+            height: 380px;
+            /* Rasio mendekati 3:4 */
+            perspective: 1000px;
+            cursor: pointer;
+            transform: scale(0.7);
+            transition: transform 0.5s cubic-bezier(0.175, 0.88, 0.32, 1.275);
+        }
+
+        .modal-overlay.is-open .polaroid-container {
+            transform: scale(1);
+        }
+
+        /* hint flip */
+        .flip-hint {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.8rem;
+            font-family: 'Monserrat', sans-serif;
+            opacity: 0.8;
+            white-space: nowrap;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
+
+        /* tombol close */
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: white;
+            color: var(--pink);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .polaroid-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .polaroid-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .polaroid-front,
+        .polaroid-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: white;
+            /* Frame putih polaroid */
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            box-sizing: border-box;
+            color: #333;
+            /* Teks gelap di polaroid */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .polaroid-front {
+            font-size: 4rem;
+            /* Ukuran emoji 1️⃣ */
+        }
+
+        .polaroid-back {
+            transform: rotateY(180deg);
+            background: #fffafa;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <audio id="pop-sound" src="https://www.myinstants.com/media/sounds/party-horn.mp3"></audio>
-    <audio id="bg-music" loop><source src="About-You.mp3" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop>
+        <source src="About-You.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="container" id="main-container">
         <div id="before-bday">
-            <h1 id="status-title">Sabar ya cantik...</h1>
-            <p id="tengil-text" style="height: 40px;">Lagi nyiapin sesuatu nih!</p>
+            <h1 id="status-title">Sabar yaa, cutie...</h1>
+            <p id="tengil-text" style="height: 40px; transition: opacity 0.5s;">Lagi nyiapin sesuatu nih!</p>
             <div class="track-container">
                 <img id="gojo-cat" src="gojo-lari-1.png" alt="Gojo Cat">
                 <img id="gift-box" src="kado-tutup.png" alt="Gift">
@@ -62,8 +398,25 @@
             <div class="timer" id="countdown">00:00:00:00</div>
         </div>
 
+        <div id="wish-section">
+            <h1>Happy Birthday, Malika! 🎂</h1>
+            <div style="font-size: 3.5rem; margin: 15px 0;">🎂</div>
+            <p style="font-style: italic; font-size: 0.9rem;">"Make a wish dulu ya sebelum next"</p>
+            <button id="yes-btn" style="margin-top: 20px;" onclick="goToPasscode()">Next ✨</button>
+        </div>
+
+        <div id="passcode-section">
+            <h1 style="font-size: 1.5rem;">Ketik Tanggal Pertama Kali Kita Ketemu</h1>
+            <p style="font-size: 0.8rem; margin-bottom: 20px;">Format: DDMMYY</p>
+            <input type="number" id="pass-input" placeholder="Masukkan angka..."
+                style="padding: 12px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; width: 80%;">
+            <p id="error-msg" style="color: #ff4d4d; font-size: 0.8rem; margin-top: 10px; display: none;">Ups!
+                Tanggalnya salah... coba inget lagi ya deck wkwk</p>
+            <button id="yes-btn" style="margin-top: 20px;" onclick="checkPasscode()">Buka Kado</button>
+        </div>
+
         <div id="question-section">
-            <h1 id="question-text">Are you ready?</h1>
+            <h1 id="question-text">Are you ready? ✨</h1>
             <div class="btn-group">
                 <button id="yes-btn" onclick="openSurprise()">Yes!</button>
                 <button id="no-btn" onclick="handleNo()">No</button>
@@ -71,33 +424,51 @@
         </div>
 
         <div id="after-bday">
-            <h1>Happy Birthday, Sayang! 🎂</h1>
+            <h1>It's For You! 💖</h1>
             <p id="milestone-text"></p>
             <div class="grid">
-                <div class="card" onclick="alert('Pesan 1')">Card 1</div>
-                <div class="card" onclick="alert('Pesan 2')">Card 2</div>
-                <div class="card" onclick="alert('Pesan 3')">Card 3</div>
-                <div class="card" onclick="alert('Pesan 4')">Card 4</div>
+                <div class="card-gift" onclick="openPolaroid(1)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(2)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(3)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(4)">🎁</div>
             </div>
-            <button id="yes-btn" style="margin-top:20px" onclick="alert('Virtual Hug! ❤️')">Kirim Peluk!</button>
+
+            <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+                <div class="polaroid-container" id="polaroid-box" onclick="flipPolaroid(this, event)">
+                    <div class="close-modal" onclick="closeModal()">×</div>
+
+                    <div class="polaroid-inner">
+                        <div class="polaroid-front" id="modal-content-front">1️⃣</div>
+                        <div class="polaroid-back">ganti ini</div>
+                    </div>
+
+                    <div class="flip-hint">✨ Klik fotonya buat flip ✨</div>
+                </div>
+            </div>
+            <button id="yes-btn" style="margin-top:25px; width: 100%;" onclick="alert('Virtual Hug! ❤️')">Kirim
+                Peluk!</button>
         </div>
     </div>
 
     <script>
-        // --- KONFIGURASI WAKTU ---
-        // Ganti birthdayDate ke waktu yang kamu mau ngetes (misal 5 menit lagi)
-        const birthdayDate = new Date("2026-08-18T00:00:00").getTime(); 
-        const startDate = new Date("2023-04-16  ").getTime(); // Tanggal Jadian
-        const lariStart = new Date("2026-04-01T00:00:00").getTime(); // Mulai Gojo Lari
+        const birthdayDate = new Date("2026-04-21T18:05:00").getTime();
+        const startDate = new Date("2023-04-16").getTime();
+        const lariStart = new Date("2026-04-01T00:00:00").getTime();
 
-        const tengilMessages = ["Larii Gojoo, wkwkwk","Semangatt buat bikin Malika seneng!!","Sabar yaa, cutie","Kasian Gojo tapi aku puas hehe"];
+        const tengilMessages = [
+            "Ganbare Gojo!!! Dikit lagi tuh...",
+            "Chotto matte ne... hadiahnya lagi dikejar",
+            "Motto hayaku, Gojo-san!!!",
+            "Sabar yaa, cutie... orang sabar disayang aku wkwk",
+            "Ayo Gojo... kasian Malika udah nunggu tuh",
+            "Ditunggu ya, ada surprise buat kamu xixixi"
+        ];
         const gojoFrame = ["gojo-lari-1.png", "gojo-lari-2.png", "gojo-lari-3.png", "gojo-lari-4.png", "gojo-lari-5.png", "gojo-lari-6.png"];
-        
+
         let currentFrame = 0;
         let noCount = 0;
         let celebrationStarted = false;
 
-        // Animasi Kaki Gojo
         setInterval(() => {
             const gojo = document.getElementById("gojo-cat");
             if (gojo && !celebrationStarted) {
@@ -111,29 +482,26 @@
             const diff = birthdayDate - now;
 
             if (diff > 0) {
-                // LOGIC LARI
                 const totalLari = birthdayDate - lariStart;
                 const sudahLewat = now - lariStart;
-                let progress = (sudahLewat / totalLari) * 67; 
+                let progress = (sudahLewat / totalLari) * 75;
 
                 if (progress < 0) progress = 0;
-                if (progress > 67) progress = 67;
+                if (progress > 75) progress = 75;
 
                 document.getElementById("gojo-cat").style.left = progress + "%";
 
-                // TIMER
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secs = Math.floor((diff % (1000 * 60)) / 1000);
                 document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
 
-                // TEXT TENGIL (Tiap 4 detik)
                 if (secs % 4 === 0) {
                     const tText = document.getElementById("tengil-text");
                     tText.style.opacity = 0;
                     setTimeout(() => {
-                        tText.innerHTML = tengilMessages[Math.floor(Math.random()*tengilMessages.length)];
+                        tText.innerHTML = tengilMessages[Math.floor(Math.random() * tengilMessages.length)];
                         tText.style.opacity = 1;
                     }, 500);
                 }
@@ -145,67 +513,73 @@
             }
         }
 
+        // ALUR 1: Countdown -> Wish Section
         function startCelebration() {
             const container = document.getElementById("main-container");
-            const gojo = document.getElementById("gojo-cat");
             const gift = document.getElementById("gift-box");
             const popSound = document.getElementById("pop-sound");
 
             popSound.play().catch(e => console.log("Audio blocked"));
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            
             gift.src = "kado-buka.png";
-            gojo.src = "https://media.tenor.com/T_7U2_Zk3EAAAAAi/gojo-cat.gif";
 
             setTimeout(() => {
                 container.classList.add("fade-out");
                 setTimeout(() => {
                     document.getElementById("before-bday").style.display = "none";
-                    document.getElementById("question-section").style.display = "flex";
+                    document.getElementById("wish-section").style.display = "flex";
                     container.classList.remove("fade-out");
                     container.classList.add("fade-in");
                 }, 1000);
             }, 3000);
         }
 
-        function handleNo() {
-            noCount++;
-            const yesBtn = document.getElementById('yes-btn');
-            const noBtn = document.getElementById('no-btn');
-            const qText = document.getElementById('question-text');
+        // ALUR 2: Wish -> Passcode
+        function goToPasscode() {
+            const container = document.getElementById("main-container");
+            container.classList.add("fade-out");
+            setTimeout(() => {
+                document.getElementById("wish-section").style.display = "none";
+                document.getElementById("passcode-section").style.display = "flex";
+                container.classList.remove("fade-out");
+                container.classList.add("fade-in");
+            }, 1000);
+        }
 
-            //list pertanyaan
-            const questions = [
-                "Are you ready? ✨",
-                 "Hontou? Kasian Gojo udah lari.. 😿",
-                 "Yakin gak mau buka? Nanti nyesel lho! 🥹",
-                 "Dame.. Onegai... 🥹",
-                 "Dah, gak ada lagi. Pencet YES aja 🗿"
-            ];
-            // update pertanyaan biar ganti
-            if (noCount < questions.length) {
-                qText.innerHTML = questions[noCount];
-            }
-            // besarin tombol yes
-            yesBtn.style.transform = `scale(${1 + noCount * 0.4})`;
-            // kecilin tombol no
-            noBtn.style.transform = `scale(${1 - noCount * 0.15})`;
-            // ilangin tombol no
-            if (noCount >= 4) {
-                noBtn.style.display = "none";
+        // ALUR 3: Passcode -> Ready?
+        function checkPasscode() {
+            const userInput = document.getElementById("pass-input").value;
+            const correctPass = "160423";
+            const container = document.getElementById("main-container");
+            const errorMsg = document.getElementById("error-msg");
+
+            if (userInput === correctPass) {
+                container.classList.add("fade-out");
+                setTimeout(() => {
+                    document.getElementById("passcode-section").style.display = "none";
+                    document.getElementById("question-section").style.display = "flex";
+                    container.classList.remove("fade-out");
+                    container.classList.add("fade-in");
+                }, 1000);
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById("pass-input").style.animation = "shake 0.3s";
+                setTimeout(() => { document.getElementById("pass-input").style.animation = ""; }, 300);
             }
         }
 
+        // ALUR 4: Ready? -> Final Cards
         function openSurprise() {
             document.getElementById("bg-music").play();
             const container = document.getElementById("main-container");
             container.classList.add("fade-out");
+
             setTimeout(() => {
                 document.getElementById("question-section").style.display = "none";
                 document.getElementById("after-bday").style.display = "block";
                 container.classList.remove("fade-out");
                 container.classList.add("fade-in");
-                
+
                 const now = new Date().getTime();
                 const daysTogether = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
                 document.getElementById("milestone-text").innerHTML = `Sudah <b>${daysTogether} hari</b> bareng-bareng! ❤️`;
@@ -213,8 +587,88 @@
             }, 1000);
         }
 
+        function handleNo() {
+            noCount++;
+            const noBtn = document.getElementById('no-btn');
+            const qText = document.getElementById('question-text');
+
+            const questions = [
+                "Are you ready? ✨", // Index 0 (Jangan dimunculkan lagi)
+                "Hontou? Kasian Gojo udah lari.. 😿", // Index 1
+                "Yakin gak mau buka? Nyesel loh! 🥹", // Index 2
+                "Dame.. Onegai... 🥹",                // Index 3
+                "Maksa banget pencet no? WKWKWK",     // Index 4
+                "Gak bakal kena wlee :p",             // Index 5
+                "Dih ngeyel, pencet YES aja sihh 🗿" // Index 6
+            ];
+
+            // Logika agar teks muter terus dari index 1 sampai 6
+            // (noCount % 6) akan menghasilkan 0-5, lalu ditambah 1 jadi 1-6.
+            const indexMuter = (noCount % (questions.length - 1)) + 1;
+            qText.innerHTML = questions[indexMuter];
+
+            // Gerakan Agresif: Jarak lompat diperjauh
+            // x: -130px sampai 130px, y: -100px sampai 100px
+            const x = Math.floor(Math.random() * 260) - 130;
+            const y = Math.floor(Math.random() * 200) - 100;
+
+            // Tambahkan rotasi acak biar makin "liar"
+            const rot = Math.floor(Math.random() * 60) - 30;
+
+            noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+        }
+
         setInterval(updateDisplay, 1000);
         updateDisplay();
+
+        function flipCard(el, id) {
+            const inner = el.querySelector('.card-inner');
+            const back = el.querySelector('.card-back');
+
+            // Cek status kartu berdasarkan teksnya
+            if (!inner.classList.contains('is-flipped')) {
+                // Tahap 1: Kado -> Foto (Angka 1)
+                inner.classList.add('is-flipped');
+            } else if (back.innerHTML === "1️⃣") {
+                // Tahap 2: Foto -> Quotes (Ganti ini)
+                // Kita putar balik sebentar lalu ganti kontennya
+                inner.style.transform = "rotateY(0deg)";
+                setTimeout(() => {
+                    back.innerHTML = "ganti ini";
+                    back.style.fontSize = "0.7rem"; // Biar muat teks panjang
+                    inner.style.transform = "rotateY(180deg)";
+                }, 300);
+            }
+        }
+
+        function openPolaroid(id) {
+            const overlay = document.getElementById('modal-overlay');
+            const inner = overlay.querySelector('.polaroid-inner');
+
+            // Reset rotasi ke depan
+            inner.classList.remove('is-flipped');
+
+            overlay.style.display = 'flex'; // Munculkan display dulu
+            setTimeout(() => {
+                overlay.classList.add('is-open'); // Baru trigger animasi scale & opacity
+            }, 10);
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('modal-overlay');
+            overlay.classList.remove('is-open');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 400); // Tunggu animasi selesai baru hilangin display
+        }
+
+        function flipPolaroid(el, event) {
+            event.stopPropagation(); // Biar gak ketutup modalnya pas klik fotonya
+            const inner = el.querySelector('.polaroid-inner');
+            inner.classList.toggle('is-flipped');
+        }
     </script>
 </body>
+
 </html>
