@@ -46,27 +46,14 @@
             justify-content: center;
             position: relative;
             z-index: 1;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
         }
 
-        .fade-out {
+        .is-hidden {
             opacity: 0;
-            transition: opacity 1s;
-            pointer-events: none;
         }
 
-        .fade-in {
-            animation: fadeIn 1s forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
 
         h1 {
             font-family: 'Dancing Script', cursive;
@@ -213,11 +200,11 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(0px);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 999;
+            z-index: 999 !important;
             opacity: 0;
             transition: all 0.5s ease-in-out;
         }
@@ -294,30 +281,48 @@
             transform: rotateY(180deg);
         }
 
+        /* --- KODE POLAROID FIX --- */
         .polaroid-front,
         .polaroid-back {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            /* Biar gak tembus pandang pas muter */
             background: white;
             border-radius: 10px;
             padding: 15px;
             box-sizing: border-box;
-            color: #333;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            /* Foto di atas, teks di bawah */
             align-items: center;
         }
 
         .polaroid-back {
             transform: rotateY(180deg);
-            background: #fffafa;
-            font-size: 0.9rem;
+            background: ivory;
+            background-image: radial-gradient(#f0f0f0);
+            background-size: 15px 15px;
+            /* Warna putih kertas agak krem dikit */
+            justify-content: center;
+            /* Teks quotes bener-bener di tengah */
             text-align: center;
-            color: var(--pink);
-            font-weight: 600;
+            border: 1px solid #eee;
+        }
+
+        /* Styling khusus buat isi teks di dalem polaroid */
+        .polaroid-back p {
+            color: #555 !important;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0;
+            padding: 10px;
         }
 
         @keyframes shake {
@@ -396,28 +401,51 @@
                 <div class="card-gift" onclick="openPolaroid(4)">🎁</div>
             </div>
 
-            <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
-                <div class="polaroid-container" id="polaroid-box" onclick="flipPolaroid(this, event)">
-                    <div class="close-modal" onclick="closeModal()">×</div>
-                    <div class="polaroid-inner">
-                        <div class="polaroid-front" id="modal-content-front">1️⃣</div>
-                        <div class="polaroid-back">ganti ini</div>
-                    </div>
-                    <div class="flip-hint">✨ Klik fotonya buat flip ✨</div>
-                </div>
-            </div>
             <button class="action-btn" style="margin-top:25px; width: 100%;" onclick="alert('Virtual Hug! ❤️')">Kirim
                 Peluk!</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+        <div class="polaroid-container" id="polaroid-box" onclick="flipPolaroid(this, event)">
+            <div class="close-modal" onclick="closeModal()">×</div>
+            <div class="polaroid-inner">
+                <div class="polaroid-front" id="modal-content-front">1️⃣</div>
+                <div class="polaroid-back">ganti ini</div>
+            </div>
+            <div class="flip-hint">✨ Klik fotonya buat flip ✨</div>
+        </div>
+    </div>
+
     <script>
-        const birthdayDate = new Date("2026-05-21T23:30:00").getTime();
+        const birthdayDate = new Date("2026-04-22T14:28:00").getTime();
         const startDate = new Date("2023-04-16").getTime();
         const lariStart = new Date("2026-04-01T00:00:00").getTime();
 
         const tengilMessages = ["sabar ya, Gojo emang lelet wkwk", "Harusnya ini worth it sih...", "Atau malah... nggak sama sekali ya? 🥹", "Kamu gak capek nunggu nya? aku sih capek (bikin nya 🗿)", "Kamu masih disini?", "Jujur... kayaknya kamu udah terlau invest deh", "Kalo kamu pergi sekarang, aku gak marah kok", "Tapi boong sih, aku marah", "Udah capek-capek bikin soalnya hehe...", "Plot twist : kamu masih nungguin 🗿", "Semakin lama nunggu, semakin bahaya sih ekspektasi kamu", "jadi takut gak sesuai deh..."];
         const gojoFrame = ["gojo-lari-1.png", "gojo-lari-2.png", "gojo-lari-3.png", "gojo-lari-4.png", "gojo-lari-5.png", "gojo-lari-6.png"];
+        const isiPolaroid = {
+            1: {
+                foto: "Eyes.jpg",
+                label: "01. Your Eyes",
+                quotes: "Mata kamu itu jujur... bahkan waktu kamu lagi pura-pura kuat.<br><br>Semoga kamu juga bisa nemuin tempat dimana kamu gak harus selalu kuat yaa ✨"
+            },
+            2: {
+                foto: "Smile.jpg",
+                label: "02. Your Smile",
+                quotes: "Senyum kamu itu sederhana, tapi ntah kenapa selau berhasil bikin aku ngerasa tenang.<br><br>Jadi... jangan pelit senyum yaa 🥰"
+            },
+            3: {
+                foto: "Thoughts1.jpg",
+                label: "03. Your Thoughts",
+                quotes: "Kadang aku gak selalu ngerti cara kamu mikir,<br>tapi justu itu yang bikin kamu beda. Dan jujur itu menarik"
+            },
+            4: {
+                foto: "Presence.jpg",
+                label: "04. Your Presence",
+                quotes: "Makasih ya, udah pernah jadi bagian dari hari-hari aku.<br><br>Dan di ulang tahun kamu ini... semoga kamu bisa bener-bener bahagia 🤍"
+            },
+        }
 
         let currentFrame = 0, noCount = 0, celebrationStarted = false, isTrapped = false, isFinalStage = false;
         let countdownTimer = setInterval(updateDisplay, 1000);
@@ -453,23 +481,32 @@
             document.getElementById("pop-sound").play().catch(e => { });
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             document.getElementById("gift-box").src = "kado-buka.png";
+
             setTimeout(() => {
-                container.classList.add("fade-out");
+                // Ganti fade-out jadi is-hidden
+                container.classList.add("is-hidden");
                 setTimeout(() => {
                     document.getElementById("before-bday").style.display = "none";
                     document.getElementById("wish-section").style.display = "flex";
-                    container.classList.remove("fade-out"); container.classList.add("fade-in");
+                    // Ganti fade-in jadi hapus is-hidden
+                    container.classList.remove("is-hidden");
                 }, 1000);
             }, 3000);
         }
 
         function goToPasscode() {
             const container = document.getElementById("main-container");
-            container.classList.add("fade-out");
+
+            // Pakai is-hidden, jangan pakai .style.opacity lagi!
+            container.classList.add("is-hidden");
+
             setTimeout(() => {
                 document.getElementById("wish-section").style.display = "none";
                 document.getElementById("passcode-section").style.display = "flex";
-                container.classList.remove("fade-out"); container.classList.add("fade-in");
+
+                setTimeout(() => {
+                    container.classList.remove("is-hidden");
+                }, 50);
             }, 1000);
         }
 
@@ -477,12 +514,20 @@
             if (document.getElementById("pass-input").value === "160423") {
                 document.getElementById("bg-music").play();
                 const container = document.getElementById("main-container");
-                container.classList.add("fade-out");
+
+                // 1. Mulai menghilang pelan-pelan
+                container.classList.add("is-hidden");
+
                 setTimeout(() => {
+                    // 2. Ganti konten pas lagi kosong
                     document.getElementById("passcode-section").style.display = "none";
                     document.getElementById("question-section").style.display = "flex";
-                    container.classList.remove("fade-out"); container.classList.add("fade-in");
-                }, 1000);
+
+                    // 3. Munculkan lagi pelan-pelan
+                    setTimeout(() => {
+                        container.classList.remove("is-hidden");
+                    }, 50);
+                }, 800); // Sesuaikan dengan durasi 0.8s di CSS tadi
             } else {
                 document.getElementById("error-msg").style.display = "block";
                 document.getElementById("pass-input").style.animation = "shake 0.3s";
@@ -552,22 +597,54 @@
 
         function realOpen() {
             const container = document.getElementById("main-container");
-            container.classList.add("fade-out");
+
+            // 1. Menghilang pelan
+            container.classList.add("is-hidden");
+
             setTimeout(() => {
+                // 2. Ganti konten ke halaman kado
                 document.getElementById("question-section").style.display = "none";
                 document.getElementById("after-bday").style.display = "block";
-                container.classList.remove("fade-out"); container.classList.add("fade-in");
+
                 const days = Math.floor((new Date().getTime() - startDate) / (1000 * 60 * 60 * 24));
                 document.getElementById("milestone-text").innerHTML = `Tau gak? kita udah <b>${days} hari</b> saling kenal tau! ❤️`;
-                confetti({ particleCount: 150, spread: 100, origin: { y: 0.7 } });
-            }, 1000);
+
+                // 3. Munculkan lagi pelan
+                setTimeout(() => {
+                    container.classList.remove("is-hidden");
+                    confetti({ particleCount: 150, spread: 100, origin: { y: 0.7 } });
+                }, 50);
+            }, 800);
         }
 
         function openPolaroid(id) {
+            const data = isiPolaroid[id];
             const overlay = document.getElementById('modal-overlay');
-            overlay.querySelector('.polaroid-inner').classList.remove('is-flipped');
+            const front = document.getElementById('modal-content-front');
+            const back = document.querySelector('.polaroid-back');
+
+            // ISI DEPAN: Cuma Foto & Label (Bingkai Polaroid)
+            front.innerHTML = `
+        <div style="width:100%; height:250px; background: #f0f0f0; border-radius:5px; overflow:hidden; border: 1px solid #ddd;">
+            <img src="${data.foto}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <p style="font-family:'Dancing Script'; margin-top:20px; font-size:1.3rem; color:#333; font-weight:bold;">${data.label}</p>
+    `;
+
+            // ISI BELAKANG: Cuma Quotes (Bersih, gak ada foto lagi)
+            back.innerHTML = `
+        <div style="padding: 20px; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <p style="font-family: 'Dancing Script' cursive; font-size: 1.1rem; color: var(--pink); line-height: 1.6; font-weight: 600;">
+                ${data.quotes}
+            </p>
+        </div>
+    `;
+
+            // Reset dan Buka Modal
+            const inner = overlay.querySelector('.polaroid-inner');
+            inner.classList.remove('is-flipped');
             overlay.style.display = 'flex';
-            setTimeout(() => overlay.classList.add('is-open'), 10);
+            setTimeout(() => overlay.classList.add('is-open'), 100);
         }
         function closeModal() {
             const overlay = document.getElementById('modal-overlay');
