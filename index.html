@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise buat Tuan Putri 🎀</title>
+    <title>A Little Something.</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&family=Fredoka:wght@500&display=swap"
         rel="stylesheet">
@@ -127,6 +127,7 @@
             padding: 0 10px;
             color: white;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease;
         }
 
         .btn-group {
@@ -344,6 +345,96 @@
                 transform: translateX(-5px);
             }
         }
+
+        #cake-wrapper {
+            position: relative;
+            width: 100%;
+            height: 260px;
+        }
+
+        #wish-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        #candleWrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -500px;
+            display: flex;
+            align-items: flex-end;
+            z-index: 10;
+            transition: top 0.6s ease-out;
+        }
+
+        #wish-text {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        #wish-text.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .number-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2px;
+        }
+
+        .number {
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            color: #FFF9E5;
+            text-shadow: -1px -1px 0 #4A4A4A, 1px -1px 0 #4A4A4A, -1px 1px 0 #4A4A4A, 1px 1px 0 #4A4A4A;
+        }
+
+        .wick {
+            width: 3px;
+            height: 10px;
+            background: #4A4A4A;
+            margin-bottom: -9px;
+        }
+
+        .flame {
+            width: 10px;
+            height: 18px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: flicker 1s infinite alternate;
+            position: relative;
+        }
+
+        .flame-inner {
+            width: 5px;
+            height: 9px;
+            background: #FFA500;
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .number-box {
+            position: relative;
+        }
+
+        .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 </head>
 
@@ -358,7 +449,8 @@
             <h1 style="font-size: 2rem; margin-bottom: 15px; font-weight: bold;">Sebentar yaa... aku lagi siapin hal
                 kecil buat kamu ♥︎
             </h1>
-            <p id="tengil-text" style="height: 40px; transition: opacity 0.5s;">Lagi nyiapin sesuatu nih!</p>
+            <p id="tengil-text" style="height: 40px; transition: opacity 0.5s;">Umm... sambil nunggu, aku ada sedikit
+                pesan buat kamu 🤍</p>
             <div class="track-container">
                 <img id="gojo-cat" src="gojo-lari-1.png" alt="Gojo Cat">
                 <img id="gift-box" src="kado-tutup.png" alt="Gift">
@@ -367,10 +459,33 @@
         </div>
 
         <div id="wish-section">
-            <h1>Happy Birthday, Malika! 🎂</h1>
-            <div style="font-size: 3.5rem; margin: 15px 0;">🎂</div>
-            <p style="font-style: italic; font-size: 0.9rem;">"Make a wish dulu ya sebelum next"</p>
-            <button class="action-btn" style="margin-top: 20px;" onclick="goToPasscode()">Next ✨</button>
+            <div id="cake-wrapper">
+                <div id="wish-text">Happy Birthday Princess</div>
+                <div id="candleWrapper">
+                    <div class="number-box">
+                        <div class="flame">
+                            <div class="flame-inner"></div>
+                        </div>
+                        <div class="wick"></div>
+                        <div class="number">1</div>
+                    </div>
+                    <div class="number-box">
+                        <div class="flame">
+                            <div class="flame-inner"></div>
+                        </div>
+                        <div class="wick"></div>
+                        <div class="number">8</div>
+                    </div>
+                </div>
+
+                <canvas id="wish-canvas"></canvas>
+            </div>
+
+            <button id="action-btn" class="action-btn"
+                style="margin-top: 20px; opacity: 0; visibility: hidden; transform: translateY(10px);"
+                onclick="goToPasscode()">
+                Udah make a wish? Klik ini ya ✨
+            </button>
         </div>
 
         <div id="passcode-section">
@@ -384,7 +499,7 @@
         </div>
 
         <div id="question-section">
-            <h1 id="question-text">Are you ready? ✨</h1>
+            <h1 id="question-text">Ini dia... Mau buka seakrang???</h1>
             <div class="btn-group">
                 <button id="yes-btn" onclick="openSurprise()">Yes!</button>
                 <button id="no-btn" onclick="handleNo()">No</button>
@@ -401,8 +516,10 @@
                 <div class="card-gift" onclick="openPolaroid(4)">🎁</div>
             </div>
 
-            <button class="action-btn" style="margin-top:25px; width: 100%;" onclick="alert('Virtual Hug! ❤️')">Kirim
-                Peluk!</button>
+            <button id="final-btn" class="action-btn"
+                style="margin-top:50px; margin-bottom: 30px; width: 100%; visibility: hidden; opacity: 0; visibility: hidden;">
+                Ada Hadiah Tambahan Nih! ✨"
+            </button>
         </div>
     </div>
 
@@ -417,12 +534,65 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="video-overlay">
+        <div class="container" style="max-width: 320px; min-height: auto; padding: 15px;">
+            <h1 style="font-size: 1.5rem;">For you... 🎥</h1>
+            <div style="width: 100%; border-radius: 15px; overflow: hidden; background: #000; aspect-ratio: 16/9;">
+                <video id="ultah-video" width="100%" controls>
+                    <source src="video-ultah.mp4" type="video/mp4">
+                    browsermu gak support video
+                </video>
+            </div>
+            <button class="action-btn" style="margin-top: 15px; width: 100%;" onclick="closeVideo()">Tutup</button>
+        </div>
+    </div>
+
     <script>
-        const birthdayDate = new Date("2026-04-22T14:28:00").getTime();
+        const birthdayDate = new Date("2026-04-18T00:01:00").getTime();
         const startDate = new Date("2023-04-16").getTime();
         const lariStart = new Date("2026-04-01T00:00:00").getTime();
 
-        const tengilMessages = ["sabar ya, Gojo emang lelet wkwk", "Harusnya ini worth it sih...", "Atau malah... nggak sama sekali ya? 🥹", "Kamu gak capek nunggu nya? aku sih capek (bikin nya 🗿)", "Kamu masih disini?", "Jujur... kayaknya kamu udah terlau invest deh", "Kalo kamu pergi sekarang, aku gak marah kok", "Tapi boong sih, aku marah", "Udah capek-capek bikin soalnya hehe...", "Plot twist : kamu masih nungguin 🗿", "Semakin lama nunggu, semakin bahaya sih ekspektasi kamu", "jadi takut gak sesuai deh..."];
+        const canvas = document.getElementById("wish-canvas");
+
+        const tengilMessages = ["Harusnya ini worth it sih...",
+            "Atau malah... nggak sama sekali ya? 🥹",
+            "Semoga gak ngecewain deh...",
+            "Sabar yaa, cantikk 🥰",
+            "Gojo-nya masih lv.1 nih, jadi lelet wkwk",
+            "Hmmm...",
+            "Kamu gak capek nunggu nya? aku sih capek (bikin nya 🗿)",
+            "Kamu masih disini?",
+            "Jujur... kayaknya kamu udah terlau invest deh",
+            "Kalo kamu pergi sekarang, aku gak marah kok",
+            "Tapi boong sih, aku marah",
+            "Udah capek-capek bikin soalnya hehe...",
+            "Plot twist : kamu masih nungguin 🗿",
+            "Semakin lama nunggu, semakin bahaya sih ekspektasi kamu",
+            "Jadi takut gak sesuai deh...",
+            "Jangan berlebihan yaa ekspektasinyaa 😭😭😭",
+            "Seriusan kamu masih nungguin?",
+            "Semangat deh yaa nunggu nya 🗿",
+            "Coba sambil mikirin aku deh nunggu nya",
+            "Pasti waktunya sama aja, tetep lama 🗿",
+            "Atau mau coba sambil ngobrol aja sama aku? 🫦",
+            "CHAT AJA, AKU FREE KOK 🥹🥹🥹",
+            "ehehehe... nggak kok, brcanda ajaa",
+            "Aku gak tau sih kamu nunggu sampe ke teks yang mana",
+            "Tapi kalo sampe sini, kamu keren banget sih...",
+            "Sinii, biar aku kasih puk-puk",
+            "🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳",
+            "Terakhir deh... aku SAYANG BANGET sama kamu 🤍",
+            "Tapi aku kangen tau sama kamu, dek...",
+            "Hikss...",
+            "Gak pernah bisa konsisten ya aku. hmm... 😌😌😌",
+            "TAPI EMANG KAMU GAK KANGEN GITU SAMA AKU????",
+            "Beneran gak kangen yaa? 😔",
+            "Ehh...  ini pesan apaan ya? wkwkwk",
+            "Ini mah malah kayak keluh kesah aku yang gak jelas yaa... maaf yaa 😭",
+            "Aku kasih ini cuma biar kamu gak bosen nunggu aja sih sebenernya. hehe...",
+            "Semoga sedikit terhibur yaa sama teks ini",
+            "Udah ahh... kebanyakan. setelah ini teksnya bakal looping yaa",
+            "Beneran last, Love you so, adek 🤍"];
         const gojoFrame = ["gojo-lari-1.png", "gojo-lari-2.png", "gojo-lari-3.png", "gojo-lari-4.png", "gojo-lari-5.png", "gojo-lari-6.png"];
         const isiPolaroid = {
             1: {
@@ -438,16 +608,18 @@
             3: {
                 foto: "Thoughts1.jpg",
                 label: "03. Your Thoughts",
-                quotes: "Kadang aku gak selalu ngerti cara kamu mikir,<br>tapi justu itu yang bikin kamu beda.<br>Dan jujur itu menarik"
+                quotes: "Kadang aku gak selalu ngerti cara kamu mikir,<br>tapi justu itu yang bikin kamu beda. Dan jujur itu menarik"
             },
             4: {
                 foto: "Presence.jpg",
                 label: "04. Your Presence",
-                quotes: "Makasih ya, udah pernah jadi bagian dari hari-hari aku.<br><br>Dan di ulang tahun kamu ini...<br>semoga kamu bisa bener-bener bahagia 🤍"
+                quotes: "Makasih ya, udah pernah jadi bagian dari hari-hari aku.<br><br>Dan di ulang tahun kamu ini... semoga kamu bisa bener-bener bahagia 🤍"
             },
         }
 
         let currentFrame = 0, noCount = 0, celebrationStarted = false, isTrapped = false, isFinalStage = false;
+        let kadoDibuka = new Set();
+        let videoSudahDitonton = false;
         let countdownTimer = setInterval(updateDisplay, 1000);
 
         setInterval(() => {
@@ -476,6 +648,8 @@
             }
         }
 
+
+
         function startCelebration() {
             const container = document.getElementById("main-container");
             document.getElementById("pop-sound").play().catch(e => { });
@@ -488,6 +662,7 @@
                 setTimeout(() => {
                     document.getElementById("before-bday").style.display = "none";
                     document.getElementById("wish-section").style.display = "flex";
+                    setTimeout(initWishCanvas, 100);
                     // Ganti fade-in jadi hapus is-hidden
                     container.classList.remove("is-hidden");
                 }, 1000);
@@ -508,6 +683,220 @@
                     container.classList.remove("is-hidden");
                 }, 50);
             }, 1000);
+        }
+
+        function initWishCanvas() {
+            const canvas = document.getElementById('wish-canvas');
+            const ctx = canvas.getContext('2d');
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // lanjut pakai kode kamu (stack, class, dll)
+            canvas.width = 800; canvas.height = 700;
+
+            const CX = canvas.width / 2;
+            const GROUND = 600;
+
+            class CakeLayer {
+                constructor(w, h, targetY, delay) {
+                    this.w = w; this.h = h; this.targetY = targetY;
+                    this.x = CX; this.y = -150; this.vy = 0;
+                    this.centerY = -150; this.centerVy = 0;
+                    this.isLanded = false; this.delay = delay; this.timer = 0;
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy += 0.6; this.y += this.vy;
+                        this.centerVy += 0.85; this.centerY += this.centerVy;
+                        if (this.centerY - this.y > 20) this.centerY = this.y + 20;
+                        if (this.y + this.h / 2 >= this.targetY) { this.y = this.targetY - this.h / 2; this.isLanded = true; }
+                    } else {
+                        let force = (this.y - this.centerY) * 0.15;
+                        this.centerVy += force; this.centerVy *= 0.8; this.centerY += this.centerVy;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+                    ctx.fillStyle = "#8B4513"; ctx.strokeStyle = "#4A4A4A"; ctx.lineWidth = 3;
+                    const left = this.x - this.w / 2, right = this.x + this.w / 2;
+                    const topY = this.y - this.h / 2, bottomY = this.y + this.h / 2;
+                    const dist = this.centerY - this.y;
+
+                    ctx.beginPath();
+                    ctx.moveTo(left + 10, topY);
+                    ctx.quadraticCurveTo(this.x, topY + dist, right - 10, topY);
+                    ctx.quadraticCurveTo(right, topY, right, topY + 10);
+                    ctx.lineTo(right, bottomY - 10);
+                    ctx.quadraticCurveTo(right, bottomY, right - 10, bottomY);
+                    ctx.quadraticCurveTo(this.x, bottomY + dist, left + 10, bottomY);
+                    ctx.quadraticCurveTo(left, bottomY, left, bottomY - 10);
+                    ctx.lineTo(left, topY + 10);
+                    ctx.quadraticCurveTo(left, topY, left + 10, topY);
+                    ctx.fill(); ctx.stroke();
+                    ctx.restore();
+                }
+            }
+
+            class CreamLayer {
+                constructor(w, h, targetY, delay) {
+                    this.w = w; this.h = h; this.targetY = targetY;
+                    this.x = CX; this.y = -200; this.vy = 0;
+                    this.isLanded = false; this.delay = delay; this.timer = 0; this.progress = 0;
+                    this.numPoints = 80; this.points = [];
+                    for (let i = 0; i < this.numPoints; i++) {
+                        let a = (i / this.numPoints) * Math.PI * 2;
+                        this.points.push({ a, x: Math.cos(a) * 20, y: Math.sin(a) * 20 });
+                    }
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy = Math.min(this.vy + 0.8, 20); this.y += this.vy;
+                        this.points.forEach(p => {
+                            let sY = Math.sin(p.a);
+                            if (sY < 0) {
+                                let stretch = Math.pow(Math.abs(sY), 2.5);
+                                p.y = sY * 20 - (stretch * this.vy * 3);
+                                p.x = Math.cos(p.a) * 20 * (1 - Math.pow(Math.abs(sY), 3) * 0.9);
+                            } else {
+                                p.y = sY * 20 + (sY * this.vy * 0.2); p.x = Math.cos(p.a) * 21;
+                            }
+                        });
+                        if (this.y + 5 >= this.targetY) { this.isLanded = true; this.points.forEach(p => { p.sx = p.x; p.sy = p.y; }); }
+                    } else {
+                        this.progress = Math.min(this.progress + 0.12, 1);
+                        this.points.forEach(p => {
+                            // Dibikin rounded dengan membatasi tx/ty lebih halus
+                            let tx = Math.max(-this.w / 2, Math.min(this.w / 2, Math.cos(p.a) * 1000));
+                            let ty = Math.max(-this.h / 2, Math.min(this.h / 2, Math.sin(p.a) * 1000));
+                            p.x = p.sx + (tx - p.sx) * this.progress; p.y = p.sy + (ty - p.sy) * this.progress;
+                        });
+                        this.y += (this.targetY - this.h / 2 - this.y) * 0.15;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+
+                    // Pindah ke posisi krim
+                    ctx.translate(this.x, this.y);
+
+                    ctx.fillStyle = "#F0E68C";
+                    ctx.strokeStyle = "#CDBE70"; // Warna lebih tua sedikit
+                    ctx.lineWidth = 2.5;         // Ketebalan stroke
+                    ctx.lineJoin = "round";
+
+                    ctx.beginPath();
+                    // -this.w/2 dan -this.h/2 supaya posisi center-nya pas di tengah
+                    // Angka 8 di akhir adalah level rounded-nya (bisa kamu ganti 5 atau 10)
+                    ctx.roundRect(-this.w / 2, -this.h / 2, this.w, this.h, 8);
+
+                    ctx.fill();
+                    ctx.stroke(); // Sekarang strokenya muncul
+                    ctx.restore();
+                }
+            }
+
+            class TopSlime {
+                constructor(w, targetY, delay) {
+                    this.w = w; this.targetY = targetY; this.delay = delay;
+                    this.x = CX; this.y = -150; this.vy = 0; this.isLanded = false;
+                    this.timer = 0; this.progress = 0; this.numPoints = 250;
+                    this.meltPattern = [55, 35, 20, 45, 25, 60, 40, 20, 50, 30];
+                    this.points = [];
+                    for (let i = 0; i < this.numPoints; i++) {
+                        this.points.push({ a: (i / this.numPoints) * Math.PI * 2, x: 0, y: 0 });
+                    }
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy += 0.45; this.y += this.vy;
+                        this.points.forEach(p => { p.x = Math.cos(p.a) * 35; p.y = Math.sin(p.a) * 45; });
+                        if (this.y + 30 >= this.targetY) this.isLanded = true;
+                    } else {
+                        this.progress += 0.005;
+                        this.points.forEach((p, i) => {
+                            let cosA = Math.cos(p.a), sinA = Math.sin(p.a);
+                            let tx = Math.sign(cosA) * Math.pow(Math.abs(cosA), 0.6) * (this.w / 2 + 5);
+                            let ty = Math.sign(sinA) * Math.pow(Math.abs(sinA), 0.8) * 15;
+                            if (this.progress > 0.3 && sinA > 0.05) {
+                                let mProg = Math.pow(Math.min((this.progress - 0.3) * 1.5, 1), 1.2);
+                                let secIdx = Math.floor((i / this.numPoints) * 10);
+                                let wave = Math.pow(Math.sin(((i / (this.numPoints / 10)) % 1) * Math.PI), 1.5);
+                                ty += this.meltPattern[secIdx] * wave * mProg;
+                            }
+                            p.x += (tx - p.x) * 0.08; p.y += (ty - p.y) * 0.08;
+                        });
+                        this.y += (this.targetY - 10 - this.y) * 0.1;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+                    ctx.fillStyle = "#FFFFFF"; ctx.strokeStyle = "#4A4A4A"; ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x + this.points[0].x, this.y + this.points[0].y);
+                    this.points.forEach((p, i) => {
+                        let next = this.points[(i + 1) % this.numPoints];
+                        ctx.quadraticCurveTo(this.x + p.x, this.y + p.y, (this.x + p.x + this.x + next.x) / 2, (this.y + p.y + this.y + next.y) / 2);
+                    });
+                    ctx.fill(); ctx.stroke(); // Pakai outline buat top cream
+                    ctx.restore();
+                }
+            }
+
+            const stack = [
+                new CakeLayer(250, 75, GROUND, 0),
+                new CreamLayer(255, 20, GROUND - 77, 1000), // TargetY naik agar terjepit
+                new CakeLayer(250, 75, GROUND - 98, 2000), // Diturunkan 1px dari target sebelumnya
+                new TopSlime(250, GROUND - 155, 3000)
+            ];
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#E0E0E0"; ctx.beginPath();
+                ctx.roundRect(CX - 180, GROUND + 5, 360, 15, 10); ctx.fill();
+
+                stack.forEach(obj => { obj.update(16); obj.draw(); });
+
+                if (stack[3].isLanded && !window.candleDropped) {
+                    window.candleDropped = true;
+
+                    setTimeout(() => {
+                        const cakeTop = GROUND - 155;
+                        const wrapperHeight = document.getElementById('cake-wrapper').clientHeight;
+                        const finalTop = (cakeTop / canvas.height) * wrapperHeight - 40;
+
+                        document.getElementById('candleWrapper').style.top = finalTop + "px";
+
+                        // munculin teks
+                        setTimeout(() => {
+                            const wishText = document.getElementById('wish-text');
+                            const actionBtn = document.getElementById('action-btn');
+
+                            wishText.classList.add('show');
+
+                            // tunggu animasi selesai, baru munculin tombol
+                            wishText.addEventListener('transitionend', () => {
+                                setTimeout(() => {
+                                    actionBtn.style.visibility = "visible";
+                                    actionBtn.style.opacity = "1";
+                                    actionBtn.style.transform = "translateY(0)";
+                                }, 2000); // delay 2 detik
+                            }, { once: true });
+
+                        }, 500);
+
+                    }, 800);
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
         }
 
         function checkPasscode() {
@@ -568,18 +957,23 @@
 
             const questions = [
                 "Eh... kok jadi no 😭 coba yang satu lagi tombolnya",
-                "EEHHH... KOK YES NYA MALAH KABUR? 😳",
-                "WKWKWK Dia malu keknya 😭😭",
-                "Ihh.. ngeyel banget ya yes nya 😾",
-                "Kejar terus... dikit lagi kena tuh 👀",
-                "Coba lagii... pliss... 🥹",
-                "Yaudah.. aku ngalah deh 😣 klik YES! aja sekarang 🤍"
+                "Ehehe... kok langsung buru-buru sih, gak sabar yaa?? 😳",
+                "Sabar yaa, jangan buru-buru klik nya... aku juga masih pengen ngobrol nih 🥹",
+                "Soalnya... ini semua aku siapin pelan-pelan buat kamu",
+                "Dan jujur aku deg-degan banget, takutnya kamu gak suka 😭",
+                "Tapi aku harap kamu bisa ngerasain effort aku yaa, karena ini semua dari hati 🥹",
+                "Jadi... yaudah kalo kamu mau buka seakrang, aku ngalah deh... klik YES! sekarang aja 🤍"
             ];
 
             let currentText = noCount < questions.length ? questions[noCount] : questions[questions.length - 1];
-            qText.innerHTML = currentText;
+            qText.style.opacity = 0;
 
-            if (currentText.includes("klik YES! aja sekarang")) {
+            setTimeout(() => {
+                qText.innerHTML = currentText;
+                qText.style.opacity = 1;
+            }, 200);
+
+            if (currentText.includes("klik YES! sekarang aja")) {
                 isFinalStage = true;
                 yesBtn.textContent = "Yes!";
                 noBtn.textContent = "No";
@@ -618,6 +1012,13 @@
         }
 
         function openPolaroid(id) {
+            kadoDibuka.add(id);
+            if (kadoDibuka.size === 4 && !videoSudahDitonton) {
+                const btn = document.getElementById("final-btn");
+                btn.style.visibility = "visible";
+                btn.style.opacity = "1"
+                btn.onclick = openVideo;
+            }
             const data = isiPolaroid[id];
             const overlay = document.getElementById('modal-overlay');
             const front = document.getElementById('modal-content-front');
@@ -634,7 +1035,7 @@
             // ISI BELAKANG: Cuma Quotes (Bersih, gak ada foto lagi)
             back.innerHTML = `
         <div style="padding: 20px; height: 100%; display: flex; align-items: center; justify-content: center;">
-            <p style="font-family: 'Dancing Script' cursive; font-size: 1.1rem; color: var(--pink); line-height: 1.6; font-weight: 600;">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: var(--pink); line-height: 1.6; font-weight: 600;">
                 ${data.quotes}
             </p>
         </div>
@@ -667,6 +1068,102 @@
                 }, 500);
             }
         }, 5000); // Ganti teks setiap 3 detik
+
+        function openVideo() {
+            const videoModal = document.getElementById('video-overlay');
+            const videoPlayer = document.getElementById('ultah-video');
+            const bgMusic = document.getElementById('bg-music');
+
+            videoModal.style.display = 'flex';
+            setTimeout(() => videoModal.classList.add('is-open'), 100);
+
+            // Fade Out Musik Latar ke volume 0.4 (biar jadi backsound tipis)
+            let fadeAudio = setInterval(() => {
+                if (bgMusic.volume > 0.4) {
+                    bgMusic.volume -= 0.2;
+                } else {
+                    bgMusic.volume = 0.4;
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
+
+            videoPlayer.play();
+        }
+
+        function closeVideo() {
+            const videoModal = document.getElementById('video-overlay');
+            const videoPlayer = document.getElementById('ultah-video');
+            const bgMusic = document.getElementById('bg-music');
+            const btn = document.getElementById("final-btn");
+
+            videoPlayer.pause();
+            videoModal.classList.remove('is-open');
+
+            // Fade In Musik Latar balik ke volume normal (1.0)
+            let fadeAudio = setInterval(() => {
+                if (bgMusic.volume < 1.0) {
+                    bgMusic.volume += 0.2;
+                } else {
+                    bgMusic.volume = 1.0;
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
+
+            setTimeout(() => {
+                videoModal.style.display = 'none';
+                videoSudahDitonton = true;
+                btn.innerHTML = "Kirim Peluk! ❤️";
+                btn.style.visibility = "visible";
+                btn.style.opacity = "1";
+                btn.onclick = function () {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ["#e2a8ab", "#ffffff", "#ffd1dc"]
+                    })
+                    const hug = document.createElement("div");
+                    hug.innerHTML = "❤️❤️❤️";
+                    hug.style.position = "fixed";
+                    hug.style.top = "60%";
+                    hug.style.left = "50%";
+                    hug.style.transform = "translateX(-50%) scale(0.5)";
+                    hug.style.fontSize = "2.5rem";
+                    hug.style.transition = "all 0.6s ease";
+                    hug.style.zIndex = 9999;
+                    document.body.appendChild(hug);
+
+                    setTimeout(() => {
+                        hug.style.transform = "translateX(-50%) scale(1.5)";
+                        hug.style.opacity = 0;
+                    }, 50);
+
+                    setTimeout(() => {
+                        hug.remove();
+                    }, 700);
+
+                    const msg = document.createElement("div");
+                    msg.innerHTML = "Kalau aku bisa... harusnya ini bukan cuma peluk virtual yaa... 🥹";
+                    msg.style.position = "fixed";
+                    msg.style.top = "50%";
+                    msg.style.left = "50%";
+                    msg.style.transform = "translate(-50%, -50%)";
+                    msg.style.background = "rgba(255, 255, 255, 0.9)";
+                    msg.style.padding = "20px 30px";
+                    msg.style.borderRadius = "10px";
+                    msg.style.fontFamily = "Montserrat";
+                    msg.style.fontSize = "1.2rem";
+                    msg.style.zIndex = 9999;
+                    msg.style.color = "#e2a8ab";
+                    document.body.appendChild(msg);
+
+                    setTimeout(() => {
+                        msg.style.opacity = 0;
+                        setTimeout(() => document.body.removeChild(msg), 500);
+                    }, 2500);
+                };
+            }, 400);
+        }
     </script>
 </body>
 
