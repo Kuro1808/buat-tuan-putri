@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise buat Tuan Putri 🎀</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&family=Fredoka:wght@500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --pink: #e2a8ab;
+            --lilac: #d1b3c4;
+            --white-glass: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--pink), var(--lilac)) fixed;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 350px;
+            min-height: 450px;
+            background: var(--white-glass);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .is-hidden {
+            opacity: 0;
+        }
+
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .track-container {
+            width: 100%;
+            height: 60px;
+            position: relative;
+            margin: 30px 0;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        #gojo-cat {
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            transition: left 0.5s linear;
+        }
+
+        #gift-box {
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 50px;
+            animation: wiggle 1s infinite;
+        }
+
+        @keyframes wiggle {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .timer {
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            letter-spacing: 1px;
+        }
+
+        #wish-section,
+        #passcode-section,
+        #question-section,
+        #after-bday {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 0 10px;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            min-height: 150px;
+            width: 100%;
+            height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #yes-btn,
+        .action-btn {
+            background: white;
+            color: var(--pink);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        #no-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .card-gift {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999 !important;
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .modal-overlay.is-open {
+            display: flex;
+            opacity: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .polaroid-container {
+            width: 280px;
+            height: 380px;
+            perspective: 1000px;
+            cursor: pointer;
+            transform: scale(0.7);
+            transition: transform 0.5s cubic-bezier(0.175, 0.88, 0.32, 1.275);
+        }
+
+        .modal-overlay.is-open .polaroid-container {
+            transform: scale(1);
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            white-space: nowrap;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: white;
+            color: var(--pink);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .polaroid-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .polaroid-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* --- KODE POLAROID FIX --- */
+        .polaroid-front,
+        .polaroid-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            /* Biar gak tembus pandang pas muter */
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Foto di atas, teks di bawah */
+            align-items: center;
+        }
+
+        .polaroid-back {
+            transform: rotateY(180deg);
+            background: ivory;
+            background-image: radial-gradient(#f0f0f0);
+            background-size: 15px 15px;
+            /* Warna putih kertas agak krem dikit */
+            justify-content: center;
+            /* Teks quotes bener-bener di tengah */
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        /* Styling khusus buat isi teks di dalem polaroid */
+        .polaroid-back p {
+            color: #555 !important;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0;
+            padding: 10px;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+
+        #cake-wrapper {
+            position: relative;
+            width: 100%;
+            height: 260px;
+        }
+
+        #wish-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        #candleWrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -500px;
+            display: flex;
+            align-items: flex-end;
+            z-index: 10;
+            transition: top 0.6s ease-out;
+        }
+
+        #wish-text {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        #wish-text.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .number-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2px;
+        }
+
+        .number {
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            color: #FFF9E5;
+            text-shadow: -1px -1px 0 #4A4A4A, 1px -1px 0 #4A4A4A, -1px 1px 0 #4A4A4A, 1px 1px 0 #4A4A4A;
+        }
+
+        .wick {
+            width: 3px;
+            height: 10px;
+            background: #4A4A4A;
+            margin-bottom: -9px;
+        }
+
+        .flame {
+            width: 10px;
+            height: 18px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: flicker 1s infinite alternate;
+            position: relative;
+        }
+
+        .flame-inner {
+            width: 5px;
+            height: 9px;
+            background: #FFA500;
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .number-box {
+            position: relative;
+        }
+
+        .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="pop-sound" src="https://www.myinstants.com/media/sounds/party-horn.mp3"></audio>
+    <audio id="bg-music" loop>
+        <source src="About-You.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="main-container">
+        <div id="before-bday">
+            <h1 style="font-size: 2rem; margin-bottom: 15px; font-weight: bold;">Sebentar yaa... aku lagi siapin hal
+                kecil buat kamu ♥︎
+            </h1>
+            <p id="tengil-text" style="height: 40px; transition: opacity 0.5s;">Umm... sambil nunggu, aku ada sedikit
+                pesan buat kamu 🤍</p>
+            <div class="track-container">
+                <img id="gojo-cat" src="gojo-lari-1.png" alt="Gojo Cat">
+                <img id="gift-box" src="kado-tutup.png" alt="Gift">
+            </div>
+            <div class="timer" id="countdown">00:00:00:00</div>
+        </div>
+
+        <div id="wish-section">
+            <div id="cake-wrapper">
+                <div id="wish-text">Happy Birthday Princess</div>
+                <div id="candleWrapper">
+                    <div class="number-box">
+                        <div class="flame">
+                            <div class="flame-inner"></div>
+                        </div>
+                        <div class="wick"></div>
+                        <div class="number">1</div>
+                    </div>
+                    <div class="number-box">
+                        <div class="flame">
+                            <div class="flame-inner"></div>
+                        </div>
+                        <div class="wick"></div>
+                        <div class="number">8</div>
+                    </div>
+                </div>
+
+                <canvas id="wish-canvas"></canvas>
+            </div>
+
+            <button id="action-btn" class="action-btn"
+                style="margin-top: 20px; opacity: 0; visibility: hidden; transform: translateY(10px);"
+                onclick="goToPasscode()">
+                Udah make a wish? Klik ini ya ✨
+            </button>
+        </div>
+
+        <div id="passcode-section">
+            <h1 style="font-size: 1.5rem;">Ketik Tanggal Pertama Kali Kita Ketemu</h1>
+            <p style="font-size: 0.8rem; margin-bottom: 20px;">Format: DDMMYY</p>
+            <input type="number" id="pass-input" placeholder="masukin angkanya disini..."
+                style="padding: 12px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; width: 80%;">
+            <p id="error-msg" style="color: #ff4d4d; font-size: 0.8rem; margin-top: 10px; display: none;">ihh... kamu
+                lupa? 🥹</p>
+            <button class="action-btn" style="margin-top: 20px;" onclick="checkPasscode()">Buka Kado</button>
+        </div>
+
+        <div id="question-section">
+            <h1 id="question-text">Are you ready? ✨</h1>
+            <div class="btn-group">
+                <button id="yes-btn" onclick="openSurprise()">Yes!</button>
+                <button id="no-btn" onclick="handleNo()">No</button>
+            </div>
+        </div>
+
+        <div id="after-bday">
+            <h1>It's For You! 💖</h1>
+            <p id="milestone-text"></p>
+            <div class="grid">
+                <div class="card-gift" onclick="openPolaroid(1)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(2)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(3)">🎁</div>
+                <div class="card-gift" onclick="openPolaroid(4)">🎁</div>
+            </div>
+
+            <button id="final-btn" class="action-btn"
+                style="margin-top:50px; margin-bottom: 30px; width: 100%; visibility: hidden; opacity: 0; visibility: hidden;">
+                Ada Hadiah Tambahan Nih! ✨"
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+        <div class="polaroid-container" id="polaroid-box" onclick="flipPolaroid(this, event)">
+            <div class="close-modal" onclick="closeModal()">×</div>
+            <div class="polaroid-inner">
+                <div class="polaroid-front" id="modal-content-front">1️⃣</div>
+                <div class="polaroid-back">ganti ini</div>
+            </div>
+            <div class="flip-hint">✨ Klik fotonya buat flip ✨</div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="video-overlay">
+        <div class="container" style="max-width: 320px; min-height: auto; padding: 15px;">
+            <h1 style="font-size: 1.5rem;">For you... 🎥</h1>
+            <div style="width: 100%; border-radius: 15px; overflow: hidden; background: #000; aspect-ratio: 16/9;">
+                <video id="ultah-video" width="100%" controls>
+                    <source src="video-ultah.mp4" type="video/mp4">
+                    browsermu gak support video
+                </video>
+            </div>
+            <button class="action-btn" style="margin-top: 15px; width: 100%;" onclick="closeVideo()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        const birthdayDate = new Date("2026-04-18T00:01:00").getTime();
+        const startDate = new Date("2023-04-16").getTime();
+        const lariStart = new Date("2026-04-01T00:00:00").getTime();
+
+        const canvas = document.getElementById("wish-canvas");
+
+        const tengilMessages = ["Harusnya ini worth it sih...",
+            "Atau malah... nggak sama sekali ya? 🥹",
+            "Semoga gak ngecewain deh...",
+            "Sabar yaa, cantikk 🥰",
+            "Gojo-nya masih lv.1 nih, jadi lelet wkwk",
+            "Hmmm...",
+            "Kamu gak capek nunggu nya? aku sih capek (bikin nya 🗿)",
+            "Kamu masih disini?",
+            "Jujur... kayaknya kamu udah terlau invest deh",
+            "Kalo kamu pergi sekarang, aku gak marah kok",
+            "Tapi boong sih, aku marah",
+            "Udah capek-capek bikin soalnya hehe...",
+            "Plot twist : kamu masih nungguin 🗿",
+            "Semakin lama nunggu, semakin bahaya sih ekspektasi kamu",
+            "Jadi takut gak sesuai deh...",
+            "Jangan berlebihan yaa ekspektasinyaa 😭😭😭",
+            "Seriusan kamu masih nungguin?",
+            "Semangat deh yaa nunggu nya 🗿",
+            "Coba sambil mikirin aku deh nunggu nya",
+            "Pasti waktunya sama aja, tetep lama 🗿",
+            "Atau mau coba sambil ngobrol aja sama aku? 🫦",
+            "CHAT AJA, AKU FREE KOK 🥹🥹🥹",
+            "Aku gak tau sih kamu nunggu sampe ke teks yang mana",
+            "Tapi kalo sampe sini, kamu keren banget sih...",
+            "Sinii, biar aku kasih puk-puk",
+            "🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳🫳",
+            "Terakhir deh... aku SAYANG BANGET sama kamu 🤍",
+            "Tapi aku kangen tau sama kamu, dek...",
+            "Hikss...",
+            "Gak pernah bisa konsisten ya aku. hmm... 😌😌😌",
+            "TAPI EMANG KAMU GAK KANGEN GITU SAMA AKU????",
+            "Beneran gak kangen yaa? 😔",
+            "Ehh...  ini pesan apaan ya? wkwkwk",
+            "Aku kasih ini cuma biar kamu gak bosen nunggu aja sih sebenernya. hehe...",
+            "Semoga sedikit terhibur yaa sama teks ini",
+            "Udah ahh... kebanyakan. setelah ini teksnya looping yaa",
+            "Beneran last, Love you so, adek 😘"];
+        const gojoFrame = ["gojo-lari-1.png", "gojo-lari-2.png", "gojo-lari-3.png", "gojo-lari-4.png", "gojo-lari-5.png", "gojo-lari-6.png"];
+        const isiPolaroid = {
+            1: {
+                foto: "Eyes.jpg",
+                label: "01. Your Eyes",
+                quotes: "Mata kamu itu jujur... bahkan waktu kamu lagi pura-pura kuat.<br><br>Semoga kamu juga bisa nemuin tempat dimana kamu gak harus selalu kuat yaa ✨"
+            },
+            2: {
+                foto: "Smile.jpg",
+                label: "02. Your Smile",
+                quotes: "Senyum kamu itu sederhana, tapi ntah kenapa selau berhasil bikin aku ngerasa tenang.<br><br>Jadi... jangan pelit senyum yaa 🥰"
+            },
+            3: {
+                foto: "Thoughts1.jpg",
+                label: "03. Your Thoughts",
+                quotes: "Kadang aku gak selalu ngerti cara kamu mikir,<br>tapi justu itu yang bikin kamu beda. Dan jujur itu menarik"
+            },
+            4: {
+                foto: "Presence.jpg",
+                label: "04. Your Presence",
+                quotes: "Makasih ya, udah pernah jadi bagian dari hari-hari aku.<br><br>Dan di ulang tahun kamu ini... semoga kamu bisa bener-bener bahagia 🤍"
+            },
+        }
+
+        let currentFrame = 0, noCount = 0, celebrationStarted = false, isTrapped = false, isFinalStage = false;
+        let kadoDibuka = new Set();
+        let videoSudahDitonton = false;
+        let countdownTimer = setInterval(updateDisplay, 1000);
+
+        setInterval(() => {
+            const gojo = document.getElementById("gojo-cat");
+            if (gojo && !celebrationStarted) {
+                currentFrame = (currentFrame + 1) % gojoFrame.length;
+                gojo.src = gojoFrame[currentFrame];
+            }
+        }, 120);
+
+        function updateDisplay() {
+            const now = new Date().getTime();
+            const diff = birthdayDate - now;
+            if (diff > 0) {
+                let progress = ((now - lariStart) / (birthdayDate - lariStart)) * 75;
+                if (progress < 0) progress = 0;
+                document.getElementById("gojo-cat").style.left = progress + "%";
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+            } else {
+                clearInterval(countdownTimer);
+                if (!celebrationStarted) { celebrationStarted = true; startCelebration(); }
+            }
+        }
+
+
+
+        function startCelebration() {
+            const container = document.getElementById("main-container");
+            document.getElementById("pop-sound").play().catch(e => { });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById("gift-box").src = "kado-buka.png";
+
+            setTimeout(() => {
+                // Ganti fade-out jadi is-hidden
+                container.classList.add("is-hidden");
+                setTimeout(() => {
+                    document.getElementById("before-bday").style.display = "none";
+                    document.getElementById("wish-section").style.display = "flex";
+                    setTimeout(initWishCanvas, 100);
+                    // Ganti fade-in jadi hapus is-hidden
+                    container.classList.remove("is-hidden");
+                }, 1000);
+            }, 3000);
+        }
+
+        function goToPasscode() {
+            const container = document.getElementById("main-container");
+
+            // Pakai is-hidden, jangan pakai .style.opacity lagi!
+            container.classList.add("is-hidden");
+
+            setTimeout(() => {
+                document.getElementById("wish-section").style.display = "none";
+                document.getElementById("passcode-section").style.display = "flex";
+
+                setTimeout(() => {
+                    container.classList.remove("is-hidden");
+                }, 50);
+            }, 1000);
+        }
+
+        function initWishCanvas() {
+            const canvas = document.getElementById('wish-canvas');
+            const ctx = canvas.getContext('2d');
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // lanjut pakai kode kamu (stack, class, dll)
+            canvas.width = 800; canvas.height = 700;
+
+            const CX = canvas.width / 2;
+            const GROUND = 600;
+
+            class CakeLayer {
+                constructor(w, h, targetY, delay) {
+                    this.w = w; this.h = h; this.targetY = targetY;
+                    this.x = CX; this.y = -150; this.vy = 0;
+                    this.centerY = -150; this.centerVy = 0;
+                    this.isLanded = false; this.delay = delay; this.timer = 0;
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy += 0.6; this.y += this.vy;
+                        this.centerVy += 0.85; this.centerY += this.centerVy;
+                        if (this.centerY - this.y > 20) this.centerY = this.y + 20;
+                        if (this.y + this.h / 2 >= this.targetY) { this.y = this.targetY - this.h / 2; this.isLanded = true; }
+                    } else {
+                        let force = (this.y - this.centerY) * 0.15;
+                        this.centerVy += force; this.centerVy *= 0.8; this.centerY += this.centerVy;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+                    ctx.fillStyle = "#8B4513"; ctx.strokeStyle = "#4A4A4A"; ctx.lineWidth = 3;
+                    const left = this.x - this.w / 2, right = this.x + this.w / 2;
+                    const topY = this.y - this.h / 2, bottomY = this.y + this.h / 2;
+                    const dist = this.centerY - this.y;
+
+                    ctx.beginPath();
+                    ctx.moveTo(left + 10, topY);
+                    ctx.quadraticCurveTo(this.x, topY + dist, right - 10, topY);
+                    ctx.quadraticCurveTo(right, topY, right, topY + 10);
+                    ctx.lineTo(right, bottomY - 10);
+                    ctx.quadraticCurveTo(right, bottomY, right - 10, bottomY);
+                    ctx.quadraticCurveTo(this.x, bottomY + dist, left + 10, bottomY);
+                    ctx.quadraticCurveTo(left, bottomY, left, bottomY - 10);
+                    ctx.lineTo(left, topY + 10);
+                    ctx.quadraticCurveTo(left, topY, left + 10, topY);
+                    ctx.fill(); ctx.stroke();
+                    ctx.restore();
+                }
+            }
+
+            class CreamLayer {
+                constructor(w, h, targetY, delay) {
+                    this.w = w; this.h = h; this.targetY = targetY;
+                    this.x = CX; this.y = -200; this.vy = 0;
+                    this.isLanded = false; this.delay = delay; this.timer = 0; this.progress = 0;
+                    this.numPoints = 80; this.points = [];
+                    for (let i = 0; i < this.numPoints; i++) {
+                        let a = (i / this.numPoints) * Math.PI * 2;
+                        this.points.push({ a, x: Math.cos(a) * 20, y: Math.sin(a) * 20 });
+                    }
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy = Math.min(this.vy + 0.8, 20); this.y += this.vy;
+                        this.points.forEach(p => {
+                            let sY = Math.sin(p.a);
+                            if (sY < 0) {
+                                let stretch = Math.pow(Math.abs(sY), 2.5);
+                                p.y = sY * 20 - (stretch * this.vy * 3);
+                                p.x = Math.cos(p.a) * 20 * (1 - Math.pow(Math.abs(sY), 3) * 0.9);
+                            } else {
+                                p.y = sY * 20 + (sY * this.vy * 0.2); p.x = Math.cos(p.a) * 21;
+                            }
+                        });
+                        if (this.y + 5 >= this.targetY) { this.isLanded = true; this.points.forEach(p => { p.sx = p.x; p.sy = p.y; }); }
+                    } else {
+                        this.progress = Math.min(this.progress + 0.12, 1);
+                        this.points.forEach(p => {
+                            // Dibikin rounded dengan membatasi tx/ty lebih halus
+                            let tx = Math.max(-this.w / 2, Math.min(this.w / 2, Math.cos(p.a) * 1000));
+                            let ty = Math.max(-this.h / 2, Math.min(this.h / 2, Math.sin(p.a) * 1000));
+                            p.x = p.sx + (tx - p.sx) * this.progress; p.y = p.sy + (ty - p.sy) * this.progress;
+                        });
+                        this.y += (this.targetY - this.h / 2 - this.y) * 0.15;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+
+                    // Pindah ke posisi krim
+                    ctx.translate(this.x, this.y);
+
+                    ctx.fillStyle = "#F0E68C";
+                    ctx.strokeStyle = "#CDBE70"; // Warna lebih tua sedikit
+                    ctx.lineWidth = 2.5;         // Ketebalan stroke
+                    ctx.lineJoin = "round";
+
+                    ctx.beginPath();
+                    // -this.w/2 dan -this.h/2 supaya posisi center-nya pas di tengah
+                    // Angka 8 di akhir adalah level rounded-nya (bisa kamu ganti 5 atau 10)
+                    ctx.roundRect(-this.w / 2, -this.h / 2, this.w, this.h, 8);
+
+                    ctx.fill();
+                    ctx.stroke(); // Sekarang strokenya muncul
+                    ctx.restore();
+                }
+            }
+
+            class TopSlime {
+                constructor(w, targetY, delay) {
+                    this.w = w; this.targetY = targetY; this.delay = delay;
+                    this.x = CX; this.y = -150; this.vy = 0; this.isLanded = false;
+                    this.timer = 0; this.progress = 0; this.numPoints = 250;
+                    this.meltPattern = [55, 35, 20, 45, 25, 60, 40, 20, 50, 30];
+                    this.points = [];
+                    for (let i = 0; i < this.numPoints; i++) {
+                        this.points.push({ a: (i / this.numPoints) * Math.PI * 2, x: 0, y: 0 });
+                    }
+                }
+                update(dt) {
+                    if (this.timer < this.delay) { this.timer += dt; return; }
+                    if (!this.isLanded) {
+                        this.vy += 0.45; this.y += this.vy;
+                        this.points.forEach(p => { p.x = Math.cos(p.a) * 35; p.y = Math.sin(p.a) * 45; });
+                        if (this.y + 30 >= this.targetY) this.isLanded = true;
+                    } else {
+                        this.progress += 0.005;
+                        this.points.forEach((p, i) => {
+                            let cosA = Math.cos(p.a), sinA = Math.sin(p.a);
+                            let tx = Math.sign(cosA) * Math.pow(Math.abs(cosA), 0.6) * (this.w / 2 + 5);
+                            let ty = Math.sign(sinA) * Math.pow(Math.abs(sinA), 0.8) * 15;
+                            if (this.progress > 0.3 && sinA > 0.05) {
+                                let mProg = Math.pow(Math.min((this.progress - 0.3) * 1.5, 1), 1.2);
+                                let secIdx = Math.floor((i / this.numPoints) * 10);
+                                let wave = Math.pow(Math.sin(((i / (this.numPoints / 10)) % 1) * Math.PI), 1.5);
+                                ty += this.meltPattern[secIdx] * wave * mProg;
+                            }
+                            p.x += (tx - p.x) * 0.08; p.y += (ty - p.y) * 0.08;
+                        });
+                        this.y += (this.targetY - 10 - this.y) * 0.1;
+                    }
+                }
+                draw() {
+                    if (this.timer < this.delay) return;
+                    ctx.save();
+                    ctx.fillStyle = "#FFFFFF"; ctx.strokeStyle = "#4A4A4A"; ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x + this.points[0].x, this.y + this.points[0].y);
+                    this.points.forEach((p, i) => {
+                        let next = this.points[(i + 1) % this.numPoints];
+                        ctx.quadraticCurveTo(this.x + p.x, this.y + p.y, (this.x + p.x + this.x + next.x) / 2, (this.y + p.y + this.y + next.y) / 2);
+                    });
+                    ctx.fill(); ctx.stroke(); // Pakai outline buat top cream
+                    ctx.restore();
+                }
+            }
+
+            const stack = [
+                new CakeLayer(250, 75, GROUND, 0),
+                new CreamLayer(255, 20, GROUND - 77, 1000), // TargetY naik agar terjepit
+                new CakeLayer(250, 75, GROUND - 98, 2000), // Diturunkan 1px dari target sebelumnya
+                new TopSlime(250, GROUND - 155, 3000)
+            ];
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#E0E0E0"; ctx.beginPath();
+                ctx.roundRect(CX - 180, GROUND + 5, 360, 15, 10); ctx.fill();
+
+                stack.forEach(obj => { obj.update(16); obj.draw(); });
+
+                if (stack[3].isLanded && !window.candleDropped) {
+                    window.candleDropped = true;
+
+                    setTimeout(() => {
+                        const cakeTop = GROUND - 155;
+                        const wrapperHeight = document.getElementById('cake-wrapper').clientHeight;
+                        const finalTop = (cakeTop / canvas.height) * wrapperHeight - 40;
+
+                        document.getElementById('candleWrapper').style.top = finalTop + "px";
+
+                        // munculin teks
+                        setTimeout(() => {
+                            const wishText = document.getElementById('wish-text');
+                            const actionBtn = document.getElementById('action-btn');
+
+                            wishText.classList.add('show');
+
+                            // tunggu animasi selesai, baru munculin tombol
+                            wishText.addEventListener('transitionend', () => {
+                                setTimeout(() => {
+                                    actionBtn.style.visibility = "visible";
+                                    actionBtn.style.opacity = "1";
+                                    actionBtn.style.transform = "translateY(0)";
+                                }, 2000); // delay 2 detik
+                            }, { once: true });
+
+                        }, 500);
+
+                    }, 800);
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        function checkPasscode() {
+            if (document.getElementById("pass-input").value === "160423") {
+                document.getElementById("bg-music").play();
+                const container = document.getElementById("main-container");
+
+                // 1. Mulai menghilang pelan-pelan
+                container.classList.add("is-hidden");
+
+                setTimeout(() => {
+                    // 2. Ganti konten pas lagi kosong
+                    document.getElementById("passcode-section").style.display = "none";
+                    document.getElementById("question-section").style.display = "flex";
+
+                    // 3. Munculkan lagi pelan-pelan
+                    setTimeout(() => {
+                        container.classList.remove("is-hidden");
+                    }, 50);
+                }, 800); // Sesuaikan dengan durasi 0.8s di CSS tadi
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+                document.getElementById("pass-input").style.animation = "shake 0.3s";
+                setTimeout(() => document.getElementById("pass-input").style.animation = "", 300);
+            }
+        }
+
+        function openSurprise() {
+            if (isFinalStage) {
+                realOpen();
+                return;
+            }
+
+            if (!isTrapped) {
+                isTrapped = true;
+                noCount = 0;
+                const yesBtn = document.getElementById('yes-btn');
+                const noBtn = document.getElementById('no-btn');
+                const qText = document.getElementById('question-text');
+
+                // SKENARIO: Kiri jadi No, Kanan jadi Yes!
+                yesBtn.textContent = "No";
+                noBtn.textContent = "Yes!";
+                qText.innerHTML = "Eh... kok jadi no 😭 coba yang satu lagi tombolnya";
+
+                yesBtn.onclick = handleNo;
+                noBtn.onclick = handleNo;
+            }
+        }
+
+        function handleNo() {
+            if (isFinalStage) return;
+
+            noCount++;
+            const qText = document.getElementById('question-text');
+            const yesBtn = document.getElementById('yes-btn');
+            const noBtn = document.getElementById('no-btn');
+
+            const questions = [
+                "Eh... kok jadi no 😭 coba yang satu lagi tombolnya",
+                "EEHHH... KOK YES NYA MALAH KABUR? 😳",
+                "WKWKWK Dia malu keknya 😭😭",
+                "Ihh.. ngeyel banget ya yes nya 😾",
+                "Kejar terus... dikit lagi kena tuh 👀",
+                "Coba lagii... pliss... 🥹",
+                "Yaudah.. aku ngalah deh 😣 klik YES! aja sekarang 🤍"
+            ];
+
+            let currentText = noCount < questions.length ? questions[noCount] : questions[questions.length - 1];
+            qText.innerHTML = currentText;
+
+            if (currentText.includes("klik YES! aja sekarang")) {
+                isFinalStage = true;
+                yesBtn.textContent = "Yes!";
+                noBtn.textContent = "No";
+                noBtn.style.transform = "translate(0,0) rotate(0deg)";
+                yesBtn.onclick = function () { realOpen(); };
+                noBtn.onclick = null;
+            } else {
+                // Yang lari adalah noBtn (tombol bertuliskan Yes! palsu)
+                const x = Math.floor(Math.random() * 200) - 100;
+                const y = Math.floor(Math.random() * 160) - 80;
+                const rot = Math.floor(Math.random() * 40) - 20;
+                noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+            }
+        }
+
+        function realOpen() {
+            const container = document.getElementById("main-container");
+
+            // 1. Menghilang pelan
+            container.classList.add("is-hidden");
+
+            setTimeout(() => {
+                // 2. Ganti konten ke halaman kado
+                document.getElementById("question-section").style.display = "none";
+                document.getElementById("after-bday").style.display = "block";
+
+                const days = Math.floor((new Date().getTime() - startDate) / (1000 * 60 * 60 * 24));
+                document.getElementById("milestone-text").innerHTML = `Tau gak? kita udah <b>${days} hari</b> saling kenal tau! ❤️`;
+
+                // 3. Munculkan lagi pelan
+                setTimeout(() => {
+                    container.classList.remove("is-hidden");
+                    confetti({ particleCount: 150, spread: 100, origin: { y: 0.7 } });
+                }, 50);
+            }, 800);
+        }
+
+        function openPolaroid(id) {
+            kadoDibuka.add(id);
+            if (kadoDibuka.size === 4 && !videoSudahDitonton) {
+                const btn = document.getElementById("final-btn");
+                btn.style.visibility = "visible";
+                btn.style.opacity = "1"
+                btn.onclick = openVideo;
+            }
+            const data = isiPolaroid[id];
+            const overlay = document.getElementById('modal-overlay');
+            const front = document.getElementById('modal-content-front');
+            const back = document.querySelector('.polaroid-back');
+
+            // ISI DEPAN: Cuma Foto & Label (Bingkai Polaroid)
+            front.innerHTML = `
+        <div style="width:100%; height:250px; background: #f0f0f0; border-radius:5px; overflow:hidden; border: 1px solid #ddd;">
+            <img src="${data.foto}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <p style="font-family:'Dancing Script'; margin-top:20px; font-size:1.3rem; color:#333; font-weight:bold;">${data.label}</p>
+    `;
+
+            // ISI BELAKANG: Cuma Quotes (Bersih, gak ada foto lagi)
+            back.innerHTML = `
+        <div style="padding: 20px; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: var(--pink); line-height: 1.6; font-weight: 600;">
+                ${data.quotes}
+            </p>
+        </div>
+    `;
+
+            // Reset dan Buka Modal
+            const inner = overlay.querySelector('.polaroid-inner');
+            inner.classList.remove('is-flipped');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('is-open'), 100);
+        }
+        function closeModal() {
+            const overlay = document.getElementById('modal-overlay');
+            overlay.classList.remove('is-open');
+            setTimeout(() => overlay.style.display = 'none', 400);
+        }
+        function flipPolaroid(el, event) { event.stopPropagation(); el.querySelector('.polaroid-inner').classList.toggle('is-flipped'); }
+        updateDisplay();
+
+        // --- LOGIKA TENGIL TEXT (TAMBAHAN) ---
+        let tengilIndex = 0;
+        setInterval(() => {
+            const tengilText = document.getElementById("tengil-text");
+            if (tengilText && !celebrationStarted) {
+                tengilText.style.opacity = 0; // Fade out dulu biar halus
+                setTimeout(() => {
+                    tengilText.innerHTML = tengilMessages[tengilIndex];
+                    tengilText.style.opacity = 1; // Fade in lagi
+                    tengilIndex = (tengilIndex + 1) % tengilMessages.length;
+                }, 500);
+            }
+        }, 5000); // Ganti teks setiap 3 detik
+
+        function openVideo() {
+            const videoModal = document.getElementById('video-overlay');
+            const videoPlayer = document.getElementById('ultah-video');
+            const bgMusic = document.getElementById('bg-music');
+
+            videoModal.style.display = 'flex';
+            setTimeout(() => videoModal.classList.add('is-open'), 100);
+
+            // Fade Out Musik Latar ke volume 0.4 (biar jadi backsound tipis)
+            let fadeAudio = setInterval(() => {
+                if (bgMusic.volume > 0.4) {
+                    bgMusic.volume -= 0.4;
+                } else {
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
+
+            videoPlayer.play();
+        }
+
+        function closeVideo() {
+            const videoModal = document.getElementById('video-overlay');
+            const videoPlayer = document.getElementById('ultah-video');
+            const bgMusic = document.getElementById('bg-music');
+            const btn = document.getElementById("final-btn");
+
+            videoPlayer.pause();
+            videoModal.classList.remove('is-open');
+
+            // Fade In Musik Latar balik ke volume normal (1.0)
+            let fadeAudio = setInterval(() => {
+                if (bgMusic.volume < 1.0) {
+                    bgMusic.volume += 0.1;
+                } else {
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
+
+            setTimeout(() => {
+                videoModal.style.display = 'none';
+                videoSudahDitonton = true;
+                btn.innerHTML = "Kirim Peluk! ❤️";
+                btn.style.visibility = "visible";
+                btn.style.opacity = "1";
+                btn.onclick = function () {
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
+                    alert('Virtual Hug dikirim! Malika pasti senyum-senyum sendiri! ❤️');
+                };
+            }, 400);
+        }
+    </script>
+</body>
+
+</html>
